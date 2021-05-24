@@ -1,0 +1,8 @@
+prometheus:
+  host: "demo."
+  port: 8080
+ingest:
+  period: 420 # Period is the rate of ingest interval in seconds
+blameless:
+  host: "localhost"
+  psort: "8080" # 443 if hitting production
