@@ -23,6 +23,5 @@ In order to get the auth token to make queries to the Blameless API, you will ne
 AUTHZERO_CLIENT_ID=<AUTHZERO_CLIENT_ID>
 AUTHZERO_CLIENT_SECRET=<AUTHZERO_CLIENT_SECRET>
 AUTHZERO_API_AUDIENCE=<AUTH0_API_AUDIENCE>
-BLAMELESS_HOST=<BLA
-MELESS_HOST (i.e: blameless.blameless.io)>
+BLAMELESS_HOST=<BLAMELESS_HOST (i.e: blameless.blameless.io)>
 ```
