@@ -1,0 +1,63 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "extends": [
+      "plugin:@typescript-eslint/recommended",
+      "plugin:prettier/recommended"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2018,
+      "sourceType": "module"
+    },
+    "rules": {
+      "@typescript-eslint/no-explicit-any": 0,
+      "no-var": 0
+    }
+}
+
+// module.exports = {
+//     env: {
+//         es6: true,
+//         node: true,
+//     },
+//     extends: [
+//         'plugin:@typescript-eslint/recommended',
+//         'prettier/@typescript-eslint',
+//         'plugin:prettier/recommended',
+//     ],
+//     parser: '@typescript-eslint/parser',
+//     parserOptions: {
+//         ecmaFeatures: {
+//             jsx: true,
+//         },
+//         ecmaVersion: 2018,
+//         sourceType: 'module',
+//     },
+//     plugins: ['@typescript-eslint', 'prettier'],
+//     rules: {
+//         '@typescript-eslint/no-use-before-define': 0,
+//         '@typescript-eslint/explicit-function-return-type': 0,
+//         '@typescript-eslint/no-explicit-any': 0,
+//         '@typescript-eslint/camelcase': 0,
+//         '@typescript-eslint/no-non-null-assertion': 0,
+//         '@typescript-eslint/no-empty-interface': 0,
+//         '@typescript-eslint/no-empty-function': 0,
+//         '@typescript-eslint/explicit-module-boundary-types': 0,
+//         '@typescript-eslint/ban-ts-comment': 0,
+//     },
+//     globals: {
+//         document: false,
+//         localStorage: false,
+//         location: false,
+//         navigator: false,
+//         sessionStorage: false,
+//         window: false,
+//         after: false,
+//         afterEach: false,
+//         before: false,
+//         beforeEach: false,
+//         describe: false,
+//         expect: false,
+//         it: false,
+//         Event: false,
+//     },
+// };

@@ -21,3 +21,6 @@ bin
 *.db
 *.DS_STORE
 .garden
+node_modules
+build
+.env
