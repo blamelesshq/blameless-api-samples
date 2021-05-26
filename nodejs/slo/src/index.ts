@@ -8,8 +8,7 @@ import { App } from './interfaces/app';
 dotenv.config();
 
 var tokenExpiresAtDate = 0;
-var token =
-    'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1qUTNSREEzT0RBNE5USTVNVVZEUWpKQ09ETkZNREEyTWpJM04wVTROakJCUlRsQ01rRTRNdyJ9.eyJpc3MiOiJodHRwczovL2JsYW1lbGVzc2Rldi5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWJlMDlhODU5NDU3NTc3ZDVhMDMxYzNmIiwiYXVkIjpbImxvY2FsaG9zdDo5MDAwIiwiaHR0cHM6Ly9ibGFtZWxlc3NkZXYuYXV0aDAuY29tL3VzZXJpbmZvIl0sImlhdCI6MTYyMTg3MDI2NSwiZXhwIjoxNjIxOTU2NjY1LCJhenAiOiJST0tnR0lvTjN1QkxIZ0IwSmVadmhJQUQxb282ZjE1SCIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwifQ.eTYMLDee1L_QyzrB1q4tvrBzms-ig8yoU_F9T2WuWUYRWCxrWJELvdAeOlQ6XCn2qd_5Sa0UTOHXtNsXteZkNnMRBD9MhMlVYq61dWXzw7l_6x4VOcPf5GobgT71fB7SX8RiwH8h0G6EznPLfTATK-amcMv40Vy8bP2rsSxut7FmvRHmoUZdkV7F61AwnOyL0V5End4rVLjP9p7lGXEvz52JPYKNUWKAh7JqOgmJfd88n_1n260_ykX09cgHkR4XtX7q1fnQK2YppzuY_u1bgqipvrwvY_uYGKEJKrT2_ZDioPMpCooTJ-HwGYYF3BNhmm7NHEjtNbg6smMNbOAUCA';
+var token = '';
 let tenantId = 0;
 
 /**
@@ -328,14 +327,14 @@ const run = async () => {
         console.log('\n');
 
         // auth token
-        // const authTokenSpinner = spinner('🔒 Getting Auth token').start();
-        // try {
-        //     await getAuth0Token();
-        //     authTokenSpinner.succeed();
-        // } catch (error) {
-        //     authTokenSpinner.fail();
-        //     return console.error('Error: ', error);
-        // }
+        const authTokenSpinner = spinner('🔒 Getting Auth token').start();
+        try {
+            await getAuth0Token();
+            authTokenSpinner.succeed();
+        } catch (error) {
+            authTokenSpinner.fail();
+            return console.error('Error: ', error);
+        }
 
         // tenant id
         const orgIdSpinner = spinner('🆔 Getting Org Id').start();
