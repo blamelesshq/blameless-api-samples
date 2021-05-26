@@ -7,8 +7,8 @@ import { App } from './interfaces/app';
 
 dotenv.config();
 
-var tokenExpiresAtDate = 0;
-var token = '';
+let tokenExpiresAtDate = 0;
+let token = '';
 let tenantId = 0;
 
 /**
