@@ -1,8 +1,13 @@
 prometheus:
-  host: "demo."
-  port: 8080
+  host: "http://demo.robustperception.io"
+  port: 9090
 ingest:
   period: 420 # Period is the rate of ingest interval in seconds
+  step: 60 # Step is resolution of queries
 blameless:
-  host: "localhost"
-  psort: "8080" # 443 if hitting production
+  host: "http://localhost"
+  port: "8080" # 443 if hitting production
+  orgId: 1 # Found within Blameless API
+  authToken: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1qUTNSREEzT0RBNE5USTVNVVZEUWpKQ09ETkZNREEyTWpJM04wVTROakJCUlRsQ01rRTRNdyJ9.eyJpc3MiOiJodHRwczovL2JsYW1lbGVzc2Rldi5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMTExMDA4MDMxMDAyODY0MjAwNTYiLCJhdWQiOlsibG9jYWxob3N0OjkwMDAiLCJodHRwczovL2JsYW1lbGVzc2Rldi5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjIyMjMwMjQxLCJleHAiOjE2MjIzMTY2NDEsImF6cCI6IlJPS2dHSW9OM3VCTEhnQjBKZVp2aElBRDFvbzZmMTVIIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCJ9.iyrcLnF2O3DUGyOB6CqL7XwFqQclx1NqaheIbSZtsHiSdeOmLdb_zR8vCrBI27-kvMkAHSaJSDrFlhMHEYGsf2ykSiQfGgAyGo1brKKzDZ18WthMLDzmXZwrhsQd1L_72rqZfhaUoTYzHW0-RfzbXVnkszBPwtLwS3PkjkkrwJfLT8NwbD4TXgdydPoh9rxgdgRuGOU-W3YSjyuDZXyo2XsQpSNzL81G2fUvEt41bWub57cRWvhvkfDJIJqYKkNCn4WR6rH9aewjLUVZOVIiqYbQQ5uAlGqC63SpeBlhri-6TwpHo3dEpnXMldMPbFFzYpTbXM67HYgxcawMhkZD-w" 
+http:
+  requestTimeout: 10 # Duration before disconnect / wait

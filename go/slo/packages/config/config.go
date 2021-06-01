@@ -1,12 +1,14 @@
 package config
 
 import (
-	"os"
+	"log"
+	"sync"
 
 	"github.com/spf13/viper"
-	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
 )
+
+var configOncer sync.Once
+var config *Config
 
 type Prometheus struct {
 	Host string
@@ -15,71 +17,69 @@ type Prometheus struct {
 
 type Ingest struct {
 	Period int
+	Step   int
 }
 
 type Blameless struct {
-	Host string
-	Port int
+	Host      string
+	Port      int
+	AuthToken string
+	OrgId     int
+}
+
+type Http struct {
+	RequestTimeout int
 }
 
 type Config struct {
 	Prometheus *Prometheus
 	Ingest     *Ingest
 	Blameless  *Blameless
-	Log        *zap.Logger
+	Http       *Http
 }
 
 type ConfigClient interface {
-	NewConfig() *Config
+	Environment() *Config
 }
 
-func NewConfig() *Config {
-	l := logInit()
+func Environment() *Config {
+	configOncer.Do(func() {
+		viper.SetConfigName("config")
+		viper.SetConfigType("yaml")
+		viper.AddConfigPath(".")
 
-	viper.SetConfigName("config")
-	viper.SetConfigType("yaml")
-	viper.AddConfigPath(".")
+		if err := viper.ReadInConfig(); err != nil {
+			log.Fatal("Unable to read in config")
+		}
 
-	err := viper.ReadInConfig()
-	if err != nil {
-		l.Fatal("Unable to read in config")
-	}
+		p := &Prometheus{
+			Host: viper.GetString("prometheus.host"),
+			Port: viper.GetInt("prometheus.port"),
+		}
 
-	p := &Prometheus{
-		Host: viper.GetString("prometheus.host"),
-		Port: viper.GetInt("prometheus.port"),
-	}
+		i := &Ingest{
+			Period: viper.GetInt("ingest.period"),
+			Step:   viper.GetInt("ingest.step"),
+		}
 
-	i := &Ingest{
-		Period: viper.GetInt("ingest.period"),
-	}
+		b := &Blameless{
+			Host:      viper.GetString("blameless.host"),
+			Port:      viper.GetInt("blameless.port"),
+			AuthToken: viper.GetString("blameless.authToken"),
+			OrgId:     viper.GetInt("blameless.orgId"),
+		}
 
-	b := &Blameless{
-		Host: viper.GetString("blameless.host"),
-		Port: viper.GetInt("blameless.port"),
-	}
+		h := &Http{
+			RequestTimeout: viper.GetInt("http.requestTimeout"),
+		}
 
-	return &Config{
-		Prometheus: p,
-		Ingest:     i,
-		Blameless:  b,
-		Log:        l,
-	}
-}
-
-func logInit() *zap.Logger {
-	errFilter := zap.LevelEnablerFunc(func(lvl zapcore.Level) bool {
-		return lvl >= zapcore.ErrorLevel
-	})
-	stdFilter := zap.LevelEnablerFunc(func(lvl zapcore.Level) bool {
-		return lvl < zapcore.ErrorLevel && lvl > zapcore.DebugLevel
+		config = &Config{
+			Prometheus: p,
+			Ingest:     i,
+			Blameless:  b,
+			Http:       h,
+		}
 	})
 
-	encoder := zapcore.NewJSONEncoder(zap.NewProductionEncoderConfig())
-	core := zapcore.NewTee(
-		zapcore.NewCore(encoder, zapcore.Lock(os.Stdout), stdFilter),
-		zapcore.NewCore(encoder, zapcore.Lock(os.Stderr), errFilter),
-	)
-
-	return zap.New(core, zap.Fields(zap.String("application", "Blameless SLO")))
+	return config
 }
