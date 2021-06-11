@@ -16,8 +16,9 @@ type Prometheus struct {
 }
 
 type Ingest struct {
-	Period int
-	Step   int
+	Backfill int
+	Period   int
+	Step     int
 }
 
 type Blameless struct {
@@ -32,10 +33,10 @@ type Http struct {
 }
 
 type Config struct {
-	Prometheus *Prometheus
-	Ingest     *Ingest
-	Blameless  *Blameless
-	Http       *Http
+	Prometheus Prometheus
+	Ingest     Ingest
+	Blameless  Blameless
+	Http       Http
 }
 
 type ConfigClient interface {
@@ -52,32 +53,25 @@ func Environment() *Config {
 			log.Fatal("Unable to read in config")
 		}
 
-		p := &Prometheus{
-			Host: viper.GetString("prometheus.host"),
-			Port: viper.GetInt("prometheus.port"),
-		}
-
-		i := &Ingest{
-			Period: viper.GetInt("ingest.period"),
-			Step:   viper.GetInt("ingest.step"),
-		}
-
-		b := &Blameless{
-			Host:      viper.GetString("blameless.host"),
-			Port:      viper.GetInt("blameless.port"),
-			AuthToken: viper.GetString("blameless.authToken"),
-			OrgId:     viper.GetInt("blameless.orgId"),
-		}
-
-		h := &Http{
-			RequestTimeout: viper.GetInt("http.requestTimeout"),
-		}
-
 		config = &Config{
-			Prometheus: p,
-			Ingest:     i,
-			Blameless:  b,
-			Http:       h,
+			Prometheus: Prometheus{
+				Host: viper.GetString("prometheus.host"),
+				Port: viper.GetInt("prometheus.port"),
+			},
+			Ingest: Ingest{
+				Backfill: viper.GetInt("ingest.backfill"),
+				Period:   viper.GetInt("ingest.period"),
+				Step:     viper.GetInt("ingest.step"),
+			},
+			Blameless: Blameless{
+				Host:      viper.GetString("blameless.host"),
+				Port:      viper.GetInt("blameless.port"),
+				AuthToken: viper.GetString("blameless.authToken"),
+				OrgId:     viper.GetInt("blameless.orgId"),
+			},
+			Http: Http{
+				RequestTimeout: viper.GetInt("http.requestTimeout"),
+			},
 		}
 	})
 

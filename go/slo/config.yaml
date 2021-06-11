@@ -2,6 +2,7 @@ prometheus:
   host: "http://demo.robustperception.io"
   port: 9090
 ingest:
+  backfill: 56 # The number of days (Blameless only supports 28 day rolling window)
   period: 420 # Period is the rate of ingest interval in seconds
   step: 60 # Step is resolution of queries
 blameless:

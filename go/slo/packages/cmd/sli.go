@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/blamelesshq/blameless-examples/slo/packages/models"
+	"github.com/blamelesshq/blameless-examples/slo/packages/utils"
 	"github.com/cheynewallace/tabby"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
@@ -108,8 +109,8 @@ func sliCreate() *cobra.Command {
 		Short: "Create a new SLI",
 		Long:  `Create a new SLI`,
 		Run: func(cmd *cobra.Command, args []string) {
-			orgId := intPrompt("Org ID")
-			name := stringPrompt("Name")
+			orgId := utils.IntPrompt("Org ID")
+			name := utils.StringPrompt("Name")
 			description := stringPrompt("Description")
 			sliTypePrompt := promptui.Select{
 				Label:     "Sli Type",
@@ -131,6 +132,51 @@ func sliCreate() *cobra.Command {
 				SliTypeId:    sliType,
 				ServiceId:    serviceId,
 			}
+
+			switch t := sliType + 1; t {
+			case sliTypes[0].Id:
+				goodRequest := utils.StringPrompt("Good Request Query")
+				validRequest := utils.StringPrompt("Valid Request Query")
+				availability := &models.AvailabilityStruct{
+					GoodRequest:  goodRequest,
+					ValidRequest: validRequest,
+				}
+				metricPath := &models.MetricPath{
+					Availability: availability,
+				}
+				sliBody.MetricPath = metricPath
+			case sliTypes[1].Id:
+				latencyReq := utils.StringPrompt("Latency Query")
+				metricPath := &models.MetricPath{
+					Latency: latencyReq,
+				}
+				sliBody.MetricPath = metricPath
+			case sliTypes[2].Id:
+				throughputReq := utils.StringPrompt("Throughput Query")
+				metricPath := &models.MetricPath{
+					Throughput: throughputReq,
+				}
+				sliBody.MetricPath = metricPath
+			case sliTypes[3].Id:
+				saturationReq := utils.tringPrompt("Saturation Query")
+				metricPath := &models.MetricPath{
+					Saturation: saturationReq,
+				}
+				sliBody.MetricPath = metricPath
+			case sliTypes[4].Id:
+				durabilityReq := stringPrompt("Durability Query")
+				metricPath := &models.MetricPath{
+					Durability: durabilityReq,
+				}
+				sliBody.MetricPath = metricPath
+			case sliTypes[5].Id:
+				correctnessReq := stringPrompt("Correctness Query")
+				metricPath := &models.MetricPath{
+					Correctness: correctnessReq,
+				}
+				sliBody.MetricPath = metricPath
+			}
+
 			postBody := &models.PostSliRequest{
 				OrgId: orgId,
 				Model: sliBody,
