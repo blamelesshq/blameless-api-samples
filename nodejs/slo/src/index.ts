@@ -11,12 +11,13 @@ let tokenExpiresAtDate = 0;
 let token = '';
 let tenantId = 0;
 
-
 /**
  * @description Returns the auth token needed to make calls into the Blameless Public API.
  * @return Promise<string> JWT Token to authorize through Blameless API.
  */
 const getAuth0Token = async () => {
+    if (process.env.AUTH_TOKEN) return process.env.AUTH_TOKEN;
+
     if (tokenExpiresAtDate) {
         const remaining = tokenExpiresAtDate - Date.now();
         if (remaining > 0) {
