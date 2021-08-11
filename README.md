@@ -1,2 +1,2 @@
-# blameless-examples
-This repository provides documented examples of interacting with Blameless's API's.
+# Blameless API Samples
+This repository provides documented examples of interacting with Blameless' APIs.
