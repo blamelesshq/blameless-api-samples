@@ -41,16 +41,16 @@ type MetricPath struct {
 }
 
 type SliBody struct {
-	OrgId        int         `json:"orgId,omitempty"`
-	Id           int         `json:"id,omitempty"`
-	Name         string      `json:"name"`
-	Description  string      `json:"description"`
-	DataSourceId int         `json:"dataSourceId"` // Datasource ID 5 === Blameless API
-	SliTypeId    int         `json:"sliTypeId"`
-	ServiceId    int         `json:"serviceId"`
-	UserId       int         `json:"userId,omitempty"`
-	Checkpoint   int         `json:"checkpoint,omitempty"`
-	MetricPath   *MetricPath `json:"metricPath,omitempty"`
+	OrgId        int    `json:"orgId,omitempty"`
+	Id           int    `json:"id,omitempty"`
+	Name         string `json:"name"`
+	Description  string `json:"description"`
+	DataSourceId int    `json:"dataSourceId"` // Datasource ID 5 === Blameless API
+	SliTypeId    int    `json:"sliTypeId"`
+	ServiceId    int    `json:"serviceId"`
+	UserId       int    `json:"userId,omitempty"`
+	Checkpoint   int    `json:"checkpoint,omitempty"`
+	MetricPath   string `json:"metricPath,omitempty"`
 }
 
 type SliTypeRequest struct {

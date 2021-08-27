@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"strconv"
@@ -22,6 +23,7 @@ func sli() *cobra.Command {
 
 	sli.AddCommand(sliCreate())
 	sli.AddCommand(sliGet())
+	sli.AddCommand(ingest())
 
 	return sli
 }
@@ -133,6 +135,7 @@ func sliCreate() *cobra.Command {
 				ServiceId:    serviceId,
 			}
 
+			metricPath := &models.MetricPath{}
 			switch t := sliType + 1; t {
 			case sliTypes[0].Id:
 				goodRequest := utils.StringPrompt("Good Request Query")
@@ -141,42 +144,40 @@ func sliCreate() *cobra.Command {
 					GoodRequest:  goodRequest,
 					ValidRequest: validRequest,
 				}
-				metricPath := &models.MetricPath{
+				metricPath = &models.MetricPath{
 					Availability: availability,
 				}
-				sliBody.MetricPath = metricPath
 			case sliTypes[1].Id:
 				latencyReq := utils.StringPrompt("Latency Query")
-				metricPath := &models.MetricPath{
+				metricPath = &models.MetricPath{
 					Latency: latencyReq,
 				}
-				sliBody.MetricPath = metricPath
 			case sliTypes[2].Id:
 				throughputReq := utils.StringPrompt("Throughput Query")
-				metricPath := &models.MetricPath{
+				metricPath = &models.MetricPath{
 					Throughput: throughputReq,
 				}
-				sliBody.MetricPath = metricPath
 			case sliTypes[3].Id:
-				saturationReq := utils.tringPrompt("Saturation Query")
-				metricPath := &models.MetricPath{
+				saturationReq := utils.StringPrompt("Saturation Query")
+				metricPath = &models.MetricPath{
 					Saturation: saturationReq,
 				}
-				sliBody.MetricPath = metricPath
 			case sliTypes[4].Id:
 				durabilityReq := stringPrompt("Durability Query")
-				metricPath := &models.MetricPath{
+				metricPath = &models.MetricPath{
 					Durability: durabilityReq,
 				}
-				sliBody.MetricPath = metricPath
 			case sliTypes[5].Id:
 				correctnessReq := stringPrompt("Correctness Query")
-				metricPath := &models.MetricPath{
+				metricPath = &models.MetricPath{
 					Correctness: correctnessReq,
 				}
-				sliBody.MetricPath = metricPath
 			}
-
+			mp, err := json.Marshal(metricPath)
+			if err != nil {
+				log.Fatalf("error while marshaling metric path: %s", err)
+			}
+			sliBody.MetricPath = string(mp)
 			postBody := &models.PostSliRequest{
 				OrgId: orgId,
 				Model: sliBody,

@@ -26,7 +26,7 @@ func ingestSli() *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			orgId := utils.IntPrompt("Org ID")
 			sliId := utils.IntPrompt("SLI ID")
-			backfill := utils.BooleanPrompt("Backfill ?")
+			// backfill := utils.BooleanPrompt("Backfill ?")
 
 			resp, err := models.GetSli(&models.GetSliRequest{
 				OrgId: orgId,
@@ -37,7 +37,7 @@ func ingestSli() *cobra.Command {
 				log.Fatalf("unable to fetch SLI: %+v", err)
 			}
 
-			sliType, err := resp.Sli.GetSliType()
+			_, err = resp.Sli.GetSliType()
 			if err != nil {
 				log.Fatalf("unable to get SLI type: %+v", err)
 			}

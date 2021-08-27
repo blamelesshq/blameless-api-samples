@@ -17,11 +17,9 @@ $ npm start
 ```
 
 
-In order to get the auth token to make queries to the Blameless API, you will need to set some variables in your `.env` file:
+In order to to make queries to the Blameless API, you will need to set some variables in your `.env` file:
 
 ```
-AUTHZERO_CLIENT_ID=<AUTHZERO_CLIENT_ID>
-AUTHZERO_CLIENT_SECRET=<AUTHZERO_CLIENT_SECRET>
-AUTHZERO_API_AUDIENCE=<AUTH0_API_AUDIENCE>
+AUTH_TOKEN=<AUTH_TOKEN>
 BLAMELESS_HOST=<BLAMELESS_HOST (i.e: blameless.blameless.io)>
 ```
