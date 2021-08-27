@@ -16,7 +16,10 @@ let tenantId = 0;
  * @return Promise<string> JWT Token to authorize through Blameless API.
  */
 const getAuth0Token = async () => {
-    if (process.env.AUTH_TOKEN) return process.env.AUTH_TOKEN;
+    if (process.env.AUTH_TOKEN) {
+        token = process.env.AUTH_TOKEN;
+        return;
+    }
 
     if (tokenExpiresAtDate) {
         const remaining = tokenExpiresAtDate - Date.now();
